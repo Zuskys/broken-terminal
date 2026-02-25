@@ -3,8 +3,8 @@ import { loadWords } from "./utils.js";
 
 const attempts = document.getElementById("attempts");
 const wordList = document.getElementById("word-list");
-const resultTxt = document.getElementById("feedback");
 const container = document.getElementById("game");
+const history = document.getElementById("result-history");
 
 //Elements updates
 function render() {
@@ -17,32 +17,17 @@ function render() {
 		btn.textContent = word;
 		btn.onclick = () => {
 			const outcome = handleGuess(word);
-			console.log(gameState.round);
-			console.log(gameState.difficulty);
-
-			if (outcome.result === "win") {
-				resultTxt.textContent = "Correct!!";
-				endGame();
-				nextGame();
-			} else if (outcome.result === "win the game") {
-				resultTxt.textContent = "You win the game!!";
-				endGame();
-				restartGame(true);
-			} else if (outcome.result === "lose") {
-				resultTxt.textContent = "You lose...";
-				endGame();
-				restartGame(false);
-			} else {
-				resultTxt.textContent = `Resemblance: ${outcome.score}/${outcome.total}`;
-				render();
-			}
+			renderHistory(outcome);
+			if (outcome.result === "continue") render();
+			// console.log(gameState.round);
+			// console.log(gameState.difficulty);
 		};
 		wordList.appendChild(btn);
 	});
 }
 
 //Game btns states
-const endGame = () => {
+const disableBtns = () => {
 	gameState.isRunning = false;
 	wordList.querySelectorAll("button").forEach((btn) => {
 		btn.disabled = true;
@@ -55,11 +40,41 @@ const nextGame = () => {
 	btn.innerHTML = "Next Level";
 	btn.onclick = () => {
 		startRound();
+		history.innerHTML = "";
 		render();
-		resultTxt.innerText = "";
 		container.removeChild(btn);
 	};
 	container.appendChild(btn);
+};
+
+//save the history of the round
+const renderHistory = (outcome) => {
+	history.innerHTML = "";
+	gameState.triedWords.forEach(({ word, score, total }) => {
+		const p = document.createElement("p");
+		p.textContent = `${word} - Resemblance: ${score}/${total}`;
+		history.appendChild(p);
+	});
+
+	if (outcome.result === "win") {
+		const p = document.createElement("p");
+		p.textContent = "Correct!!";
+		history.appendChild(p);
+		disableBtns();
+		nextGame();
+	} else if (outcome.result === "win the game") {
+		const p = document.createElement("p");
+		p.textContent = "You win the game!!!";
+		history.appendChild(p);
+		disableBtns();
+		restartGame(true);
+	} else if (outcome.result === "lose") {
+		const p = document.createElement("p");
+		p.textContent = "You lose...";
+		history.appendChild(p);
+		disableBtns();
+		restartGame(false);
+	}
 };
 
 //Create restart btn
@@ -72,8 +87,8 @@ const restartGame = (isGameOver) => {
 			gameState.difficulty = 0;
 		}
 		startRound();
+		history.innerHTML = "";
 		render();
-		resultTxt.innerText = "";
 		container.removeChild(btn);
 	};
 	container.appendChild(btn);
