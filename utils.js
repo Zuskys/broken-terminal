@@ -4,9 +4,9 @@ export function shuffle(array) {
 }
 
 //Dictionary words
-export const wordsByLength = {
-	4: ["GAME", "HACK", "CODE", "LOCK", "BOOT", "FILE", "DATA"],
-	5: ["ENTER", "ADMIN", "VIRUS", "PROXY", "SHELL"],
-	7: ["ENTERss", "ADMINss", "VIRUSss", "PROXYss", "SHELLss"],
-	10: ["ENTERsqaas", "ADMINsqas", "VIRUSsqas", "PROXYsqas", "SHELLsqas"],
-};
+export let wordsByLength = {};
+
+export async function loadWords() {
+	const response = await fetch("assets/wordsByLength.json");
+	wordsByLength = await response.json();
+}

@@ -1,4 +1,5 @@
 import { gameState, startRound, handleGuess } from "./game.js";
+import { loadWords } from "./utils.js";
 
 const attempts = document.getElementById("attempts");
 const wordList = document.getElementById("word-list");
@@ -40,7 +41,7 @@ function render() {
 	});
 }
 
-//Game State
+//Game btns states
 const endGame = () => {
 	gameState.isRunning = false;
 	wordList.querySelectorAll("button").forEach((btn) => {
@@ -78,5 +79,11 @@ const restartGame = (isGameOver) => {
 	container.appendChild(btn);
 };
 
-startRound();
-render();
+//function that start everything
+async function init() {
+	await loadWords();
+	startRound();
+	render();
+}
+
+init();

@@ -12,9 +12,9 @@ export let gameState = {
 
 //Function that start the new rounds
 export function startRound() {
-	let length = 4; //base difficult
+	let length = 5; //base difficult
 	//change length dependent of the difficult
-	if (gameState.difficulty === 1) length = 5;
+	if (gameState.difficulty === 1) length = 6;
 	else if (gameState.difficulty === 2) length = 7;
 	else if (gameState.difficulty === 3) length = 10;
 
@@ -22,6 +22,8 @@ export function startRound() {
 	const shuffled = shuffle(pool);
 
 	gameState.visibleWords = shuffled.slice(0, 6);
+	/*const randomIndex = Math.floor(Math.random() * gameState.visibleWords.length);
+	gameState.correctWord = gameState.visibleWords[randomIndex];*/
 	gameState.correctWord = gameState.visibleWords[0];
 	gameState.attempts = 4;
 }
