@@ -30,6 +30,17 @@ export function startRound() {
 	gameState.triedWords = [];
 }
 
+export const resetGame = () => {
+	gameState.round = 0;
+	gameState.attempts = 4;
+	gameState.correctWord = false;
+	gameState.isRunning = true;
+	gameState.visibleWords = [];
+	gameState.triedWords = [];
+	gameState.difficulty = 0;
+	startRound();
+};
+
 //Get the correct letters of the word selected
 function likeness(correct, guess) {
 	let matches = 0;
@@ -49,12 +60,12 @@ export function handleGuess(word) {
 		else if (gameState.round === 6) gameState.difficulty++;
 		else if (gameState.round === 8) gameState.difficulty++;
 		else if (gameState.round === 10) return { result: "win the game" };
-		return { result: "win" };
+		return { result: "win", isGameOver: false };
 	}
 	gameState.attempts--;
 	const score = likeness(gameState.correctWord, word);
 
-	if (gameState.attempts === 0) return { result: "lose" };
+	if (gameState.attempts === 0) return { result: "lose", isGameOver: true };
 
 	return {
 		result: "continue",

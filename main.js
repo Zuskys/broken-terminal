@@ -1,4 +1,4 @@
-import { gameState, startRound, handleGuess } from "./game.js";
+import { gameState, startRound, handleGuess, resetGame } from "./game.js";
 import { loadWords } from "./utils.js";
 
 const attempts = document.getElementById("attempts-cont");
@@ -77,10 +77,7 @@ const restartGame = (isGameOver) => {
 	btn.classList.add("game-btn");
 	btn.innerHTML = isGameOver ? "Again!!" : "Restart?";
 	btn.onclick = () => {
-		if (isGameOver) {
-			gameState.round = 0;
-			gameState.difficulty = 0;
-		}
+		resetGame();
 		startRound();
 		history.innerHTML = "";
 		render();
