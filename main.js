@@ -1,30 +1,22 @@
 import { gameState, startRound, handleGuess } from "./game.js";
 import { loadWords } from "./utils.js";
 
-const attempts = document.getElementById("attempts");
+const attempts = document.getElementById("attempts-cont");
 const wordList = document.getElementById("word-list");
-const container = document.getElementById("game");
+const historyPanel = document.getElementById("panel-history");
 const history = document.getElementById("result-history");
 
-//Elements updates
-function render() {
-	attempts.textContent = `Attempts: ${gameState.attempts}`;
-
-	wordList.innerHTML = "";
-
-	gameState.visibleWords.forEach((word) => {
-		const btn = document.createElement("button");
-		btn.textContent = word;
-		btn.onclick = () => {
-			const outcome = handleGuess(word);
-			renderHistory(outcome);
-			if (outcome.result === "continue") render();
-			// console.log(gameState.round);
-			// console.log(gameState.difficulty);
-		};
-		wordList.appendChild(btn);
-	});
-}
+//create attempts circles
+const attemptStyles = () => {
+	const style = document.getElementById("attempts-style");
+	style.innerHTML = "";
+	for (let i = 0; i < 4; i++) {
+		const life = document.createElement("div");
+		life.classList.add("life-style");
+		if (i >= gameState.attempts) life.classList.add("loss");
+		style.appendChild(life);
+	}
+};
 
 //Game btns states
 const disableBtns = () => {
@@ -37,19 +29,21 @@ const disableBtns = () => {
 //Create next lvl btn
 const nextGame = () => {
 	const btn = document.createElement("button");
+	btn.classList.add("game-btn");
 	btn.innerHTML = "Next Level";
 	btn.onclick = () => {
 		startRound();
 		history.innerHTML = "";
 		render();
-		container.removeChild(btn);
+		historyPanel.removeChild(btn);
 	};
-	container.appendChild(btn);
+	historyPanel.appendChild(btn);
 };
 
 //save the history of the round
 const renderHistory = (outcome) => {
 	history.innerHTML = "";
+	attemptStyles();
 	gameState.triedWords.forEach(({ word, score, total }) => {
 		const p = document.createElement("p");
 		p.textContent = `${word} - Resemblance: ${score}/${total}`;
@@ -80,6 +74,7 @@ const renderHistory = (outcome) => {
 //Create restart btn
 const restartGame = (isGameOver) => {
 	const btn = document.createElement("button");
+	btn.classList.add("game-btn");
 	btn.innerHTML = isGameOver ? "Again!!" : "Restart?";
 	btn.onclick = () => {
 		if (isGameOver) {
@@ -89,10 +84,31 @@ const restartGame = (isGameOver) => {
 		startRound();
 		history.innerHTML = "";
 		render();
-		container.removeChild(btn);
+		historyPanel.removeChild(btn);
 	};
-	container.appendChild(btn);
+	historyPanel.appendChild(btn);
 };
+
+//Elements updates
+function render() {
+	attemptStyles();
+
+	wordList.innerHTML = "";
+
+	gameState.visibleWords.forEach((word) => {
+		const btn = document.createElement("button");
+		btn.classList.add("word-btn");
+		btn.textContent = word;
+		btn.onclick = () => {
+			const outcome = handleGuess(word);
+			renderHistory(outcome);
+			if (outcome.result === "continue") render();
+			console.log(gameState.round);
+			console.log(gameState.difficulty);
+		};
+		wordList.appendChild(btn);
+	});
+}
 
 //function that start everything
 async function init() {
