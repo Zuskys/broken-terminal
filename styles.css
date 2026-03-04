@@ -5,6 +5,7 @@
 	--overlay: hsl(335, 50%, 5%);
 	--border: hsl(339, 60%, 6%);
 	--border-life: hsl(339, 50%, 15%);
+	--border-menu: hsl(6, 13%, 58%);
 	--text: hsl(329, 50%, 70%);
 	--text-dim: hsl(329, 30%, 40%);
 	--heading: hsl(6, 100%, 80%);
@@ -45,20 +46,62 @@ button {
 	font-family: "Share Tech Mono", monospace;
 	cursor: cell;
 }
-/*GENERAL CLASSES*/
-
-/* GAME SECTION */
-#game {
-	height: 90%;
-	width: 90%;
-	display: grid;
-	grid-template-columns: 4fr 2fr;
+section {
 	background-color: var(--surface);
 	border: 40px solid var(--border);
 	border-radius: 20px;
 	box-shadow:
 		-2px 2px 10px #1c1f1d,
 		inset 0 0 10px var(--shadow);
+}
+/*GENERAL*/
+/*MAIN MENU*/
+#main-menu {
+	height: 90%;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.menu-content {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+.menu-content h1,
+p {
+	text-align: center;
+	color: var(--heading);
+}
+.menu-content h1 {
+	font-size: 5rem;
+}
+.menu-content p {
+	font-size: 2.2rem;
+	padding-bottom: 15px;
+}
+.menu-btn {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+.menu-btn button {
+	height: 50px;
+	width: auto;
+	font-size: 1.5rem;
+	background-color: var(--overlay);
+	border: 2px solid var(--border-menu);
+}
+.menu-btn button:hover {
+	background-color: var(--primary);
+	color: var(--heading);
+}
+/* GAME SECTION */
+#game {
+	height: 90%;
+	width: 90%;
+	display: none;
+	grid-template-columns: 4fr 2fr;
 }
 
 #panel-words {
@@ -124,7 +167,8 @@ button {
 	background: none;
 }
 
-.word-btn:not(:disabled):hover {
+.word-btn:not(:disabled):hover,
+.correct {
 	background-color: var(--primary);
 	color: var(--heading);
 }

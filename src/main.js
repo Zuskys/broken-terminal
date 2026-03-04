@@ -49,7 +49,6 @@ const renderHistory = (outcome) => {
 		p.textContent = `${word} - Resemblance: ${score}/${total}`;
 		history.appendChild(p);
 	});
-
 	if (outcome.result === "win") {
 		const p = document.createElement("p");
 		p.textContent = "Correct!!";
@@ -78,12 +77,18 @@ const restartGame = (isGameOver) => {
 	btn.innerHTML = isGameOver ? "Again!!" : "Restart?";
 	btn.onclick = () => {
 		resetGame();
-		startRound();
 		history.innerHTML = "";
 		render();
 		historyPanel.removeChild(btn);
 	};
 	historyPanel.appendChild(btn);
+};
+
+//Select screen
+const showGame = (id) => {
+	document.querySelectorAll("main>section").forEach((s) => (s.style.display = "none"));
+	const section = document.getElementById(id);
+	section.style.display = id === "game" ? "grid" : "flex";
 };
 
 //Elements updates
@@ -100,8 +105,6 @@ function render() {
 			const outcome = handleGuess(word);
 			renderHistory(outcome);
 			if (outcome.result === "continue") render();
-			console.log(gameState.round);
-			console.log(gameState.difficulty);
 		};
 		wordList.appendChild(btn);
 	});
@@ -110,8 +113,10 @@ function render() {
 //function that start everything
 async function init() {
 	await loadWords();
-	startRound();
-	render();
 }
-
+document.getElementById("btn-play").onclick = () => {
+	resetGame();
+	showGame("game");
+	render();
+};
 init();
