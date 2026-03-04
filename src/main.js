@@ -101,9 +101,16 @@ function render() {
 		const btn = document.createElement("button");
 		btn.classList.add("word-btn");
 		btn.textContent = word;
+		if (word === gameState.correctWord) btn.dataset.correct = "true";
 		btn.onclick = () => {
 			const outcome = handleGuess(word);
 			renderHistory(outcome);
+			if (outcome.result === "win" || outcome.result === "lose") {
+				wordList.querySelectorAll("[data-correct='true']").forEach((i) => {
+					i.classList.add("correct");
+				});
+			}
+
 			if (outcome.result === "continue") render();
 		};
 		wordList.appendChild(btn);
