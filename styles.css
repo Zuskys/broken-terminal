@@ -23,7 +23,6 @@
 }
 body {
 	height: 100vh;
-	min-width: 600px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -206,4 +205,136 @@ p {
 	);
 	pointer-events: none;
 	z-index: 10;
+}
+
+/*----MEDIA QUERIES----*/
+/*768px*/
+@media (max-width: 768px) {
+	section {
+		border-width: 20px;
+		border-radius: 12px;
+	}
+	#main-menu {
+		height: 95%;
+		width: 95%;
+	}
+	.menu-content {
+		gap: 1.5rem;
+	}
+	.menu-content h1 {
+		font-size: 3rem;
+	}
+	.menu-content p {
+		font-size: 1.4rem;
+		padding-bottom: 10px;
+	}
+	.menu-content button {
+		height: 45px;
+		font-size: 1.2rem;
+	}
+
+	#game {
+		height: 95%;
+		width: 95%;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr auto;
+		overflow: hidden;
+	}
+	#panel-words {
+		font-size: 1.4rem;
+		padding: 15px;
+		max-height: 300px;
+		border-right: none;
+		border-bottom: 1px solid var(--primary);
+	}
+	/*two columns of words*/
+	#word-list {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+		margin-top: 12px;
+	}
+	#result-history {
+		font-size: 1rem;
+		padding: 15px;
+	}
+	.life-style {
+		width: 28px;
+		height: 28px;
+	}
+	.word-btn {
+		font-size: 1rem;
+		width: 90px;
+	}
+	.game-btn {
+		position: static;
+		width: 100%;
+		height: 40px;
+	}
+}
+/*480px*/
+@media (max-width: 480px) {
+	body {
+		height: 100dvh;
+		overflow: hidden;
+		position: fixed;
+		width: 100%;
+	}
+	section {
+		border-width: 8px;
+		border-radius: 8px;
+	}
+	#main-menu {
+		height: 98%;
+		width: 98%;
+	}
+	.menu-content {
+		gap: 1rem;
+		padding: 10px;
+	}
+	.menu-content h1 {
+		font-size: 2rem;
+		letter-spacing: 2px;
+	}
+	.menu-content p {
+		font-size: 1rem;
+		padding-bottom: 8px;
+	}
+	.menu-btn {
+		gap: 12px;
+	}
+	.menu-content button {
+		height: 42px;
+		font-size: 1rem;
+	}
+
+	#game {
+		height: 98%;
+		width: 98%;
+	}
+	#panel-words {
+		font-size: 1.1rem;
+		padding: 10px;
+	}
+	#attempts-style {
+		gap: 6px;
+		flex-wrap: wrap;
+	}
+	.life-style {
+		width: 22px;
+		height: 22px;
+		border-width: 3px;
+	}
+	.word-btn {
+		font-size: 0.9rem;
+		width: 80px;
+	}
+	#result-history {
+		font-size: 0.85rem;
+		padding: 10px;
+	}
+	.game-btn {
+		height: 42px;
+		font-size: 0.9rem;
+	}
 }
